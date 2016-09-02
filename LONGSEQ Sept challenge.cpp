@@ -5,7 +5,7 @@ int main() {
 	// your code goes her
 	
 	int t,num1,num0,n;
-	char str[100000];
+	char str[100005];
 	cin>>t;
 	
 	while(t--)
