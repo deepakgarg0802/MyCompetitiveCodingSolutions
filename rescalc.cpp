@@ -9,7 +9,7 @@ int findpositive(int *a,int n)
 	for(int i=0;i<n;++i)
 	{
 		//cout<<a[i]<<" ";
-		if(a[i]>0 and a[i]<x)
+		if(a[i]>0 && a[i]<x)
 		{
 			
 			x=a[i];
