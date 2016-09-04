@@ -45,17 +45,17 @@ int calc(int *arr,int size)
 		}
 		if(count ==6)
 		{
-			pt= pt+4;
+			pt= pt+(minpositive*4);
 			count=0;
 		}
 		else if(count ==5)
 		{
-			pt= pt+2;
+			pt= pt+(minpositive*2);
 			count=0;
 		}
 		if(count ==4)
 		{
-			pt= pt+1;
+			pt= pt+(minpositive*1);
 			count=0;
 		}
 		minpositive= findpositive(arr,size);
