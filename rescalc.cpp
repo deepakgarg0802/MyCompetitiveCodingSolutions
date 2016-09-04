@@ -11,7 +11,6 @@ int findpositive(int *a,int n)
 		//cout<<a[i]<<" ";
 		if(a[i]>0 && a[i]<x)
 		{
-			
 			x=a[i];
 		}
 	}
@@ -68,11 +67,11 @@ int findWinner(int* x,int size){
     for(int i=1;i<size;++i)
     {
         if(winpt<=x[i])
-			{
-				winpt=x[i];
-				win2=win1;
-                win1=i;
-			}
+		{
+			winpt=x[i];
+			win2=win1;
+            win1=i;
+		}
     }
     if(x[win1]==x[win2]){
         return -1;
@@ -97,7 +96,6 @@ int main() {
 			cin>>c;
 			//cout<<c<<endl;
 			memset(cookie,0,sizeof(cookie));
-			
 			points[i]+=c;
 			
 			for(int j=0;j<c;++j)
@@ -115,8 +113,8 @@ int main() {
         winner=findWinner(points,c);
 		if(winner==1)
 			cout<<"chef\n";
-        else if(winner==-1)
-            cout<<"tie\n";
+	    else if(winner==-1)
+	       	cout<<"tie\n";
 		else
 			cout<<winner<<"\n";
 	}
