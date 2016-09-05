@@ -1,122 +1,73 @@
-#include <iostream>
 #include<bits/stdc++.h>
+ 
 using namespace std;
-
-int findpositive(int *a,int n)
-{
-	int x=INT_MAX;
-	//cout<<"size"<<n<<"\n";
-	for(int i=0;i<n;++i)
-	{
-		//cout<<a[i]<<" ";
-		if(a[i]>0 && a[i]<x)
-		{
-			x=a[i];
-		}
-	}
-	//cout<<"\n Positive "<<x<<endl;
-	if(x==INT_MAX)
-		return -1;
-	else
-		return x;
-}
-
-int calc(int *arr,int size)
-{
-	int pt=0;
-	/*for(int j=0;j<size;++j)
-	{
-		cout<<arr[j]<<" ";
-	}
-	cout<<endl;*/
-	int minpositive=findpositive(arr,size);
-	
-	while(minpositive>0)
-	{
-		int count=0;
-		for(int i=0;i<size;++i)
-		{
-			if(arr[i]-minpositive>=0)
-			{
-				arr[i]=arr[i]-minpositive;
-				++count;
-			}
-		}
-		if(count ==6)
-		{
-			pt= pt+(minpositive*4);
-			count=0;
-		}
-		else if(count ==5)
-		{
-			pt= pt+(minpositive*2);
-			count=0;
-		}
-		if(count ==4)
-		{
-			pt= pt+(minpositive*1);
-			count=0;
-		}
-		minpositive= findpositive(arr,size);
-	}
-	return pt;
-}
-int findWinner(int* x,int size){
-    int win1=0,win2=-1;
-    int winpt= x[0];
-    for(int i=1;i<size;++i)
-    {
-        if(winpt<=x[i])
-		{
-			winpt=x[i];
-			win2=win1;
-            win1=i;
-		}
+ 
+int findnonzero(int *a,int size){
+    int count=0;
+    for(int i=0;i<size;++i){
+        if(a[i]>0){
+            ++count;
+        }
     }
-    if(x[win1]==x[win2]){
-        return -1;
-    }
-    else
-        return win1+1;
+    return count;
 }
-int main() {
-	// your code goes here
-	int t,n,c=0,cookie[6],temp,points[105];
-	cin>>t;
-	
-	while(t--)
-	{
-		cin>>n;
-		temp=0;
-		memset(points,0,105);
-		int winner=INT_MIN,winner_pt=INT_MIN;
-		
-		for(int i=0;i<n;++i)
-		{
-			cin>>c;
-			//cout<<c<<endl;
-			memset(cookie,0,sizeof(cookie));
-			points[i]+=c;
-			
-			for(int j=0;j<c;++j)
-			{
-				cin>>temp;
-				//cout<<temp;
-				cookie[temp-1]++;
-			}
-			/*cout<<points[i]<<endl;*/
-			int y=calc(cookie,6);
-			points[i]+=y;
-			//cout<<i<<" :"<<points[i]<<"\n";
+int main(){
+    
+    int t,type[6],i,j,n,temp,c,cur_points,win_pt;
+    cin>>t;
+    
+    while(t--){
+        cin>>n;
+        win_pt=-1;
+        int tie=0;
+        int winner=-1;
+        
+        for(i=0;i<n;++i){
+            cin>>c;
+            cur_points=c;
+            type[0]=type[1]=type[2]=type[3]=type[4]=type[5]=0;
             
-		}
-        winner=findWinner(points,c);
-		if(winner==1)
-			cout<<"chef\n";
-	    else if(winner==-1)
-	       	cout<<"tie\n";
-		else
-			cout<<winner<<"\n";
-	}
-	return 0;
-}
+            for(j=0;j<c;++j){
+                cin>>temp;
+                type[temp-1]++;
+            }
+            int nonzero= findnonzero(type,6);
+            while(nonzero>=4){
+                
+                if(nonzero==6){
+                    cur_points+=4;
+                }
+                else if(nonzero==5){
+                    cur_points+=2;
+                }
+                if(nonzero==4){
+                    cur_points+=1;
+                }
+                for(int x=0;x<6;++x){
+                    type[x]--;
+                }    
+                nonzero= findnonzero(type,6);
+            }
+            //cout<<i<<" : "<<cur_points<<endl;
+            if(cur_points==win_pt){
+                tie=1;
+                winner=i+1;
+            }
+            else if(cur_points>win_pt){
+                tie=0;
+                win_pt=cur_points;
+                winner=i+1;
+            }
+        }
+        if(tie==1){
+            cout<<"tie\n";
+        }
+        else if(winner==1){
+            cout<<"chef\n";
+        }
+        else{
+            cout<<winner<<"\n";
+        }
+    }
+    return 0;
+} 
