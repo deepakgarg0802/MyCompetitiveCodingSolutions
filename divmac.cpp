@@ -5,6 +5,9 @@ using namespace std;
 int LeastPrimeDivisor(pair<int,int> num)
 {
 	int i=2;
+	if(num.first==1){
+		return 1;
+	}
 	if(num.first%i==0)
 	{
         return i;
