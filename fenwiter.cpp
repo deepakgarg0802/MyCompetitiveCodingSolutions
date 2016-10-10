@@ -50,21 +50,23 @@ int addbool(bool l[],int len,int c){
             if(l[i]==0){
                 l[i]=1;
                 carry=0;
+                break;
             }
             else{
                 l[i]=0;
                 carry=1;
             }
         }
+        ///cout<<l[i]<<" ";
     }
-    
+    ///cout<<endl;
     return carry;
 }
 
 int main(){
     
-    int t,i,j,n,carry;
-    long long ans=0;
+    int t,i,j,carry;
+    long long ans=0,n,temp;
     bool l1[1004],l2[1004],l3[1004],x[1004];
     int len1,len2,len3;
     char ch;
@@ -87,13 +89,30 @@ int main(){
         
         carry=0;
         
+        //add 1 to L3
         carry=addbool(l3,len3,1);
-        if(carry==1)
+        if(carry==0)
+        {
+            ans=countsetbits(l3,len3)+countsetbits(l1,len1)+ n*countsetbits(l2,len2);    
+        }
+        else
+        {
+            //store number of set bits in original L2
+            temp=countsetbits(l2,len2);
+            ////cout<<ans<<" ";
+
             carry=addbool(l2,len2,carry);
-        if(carry==1)
-            carry=addbool(l1,len1,carry);
-        
-        ans=countsetbits(l1,len1)+n*countsetbits(l2,len2)+countsetbits(l3,len3)+carry;
+
+            if(carry==0){
+                ans=countsetbits(l1,len1)+(n-1)*temp+ countsetbits(l2,len2);
+                ////cout<<ans<<" ";
+            }
+            else{
+                carry=addbool(l1,len1,carry); 
+                ans=countsetbits(l1,len1)+carry;
+                ////cout<<ans<<" ";
+            }
+        }
         cout<<ans<<endl;
     }
 }
