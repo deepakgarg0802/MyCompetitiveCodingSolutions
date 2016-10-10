@@ -31,15 +31,39 @@ int inputL(bool a[])
             a[len]=0;
             len++;
         }
-        cout<<a[len-1];
+        ////cout<<a[len-1];
     }  
-    cout<<" ";  
+    ////cout<<" ";  
     return len;
 }   
 
+int addbool(bool l[],int len,int c){
+    
+    int temp=0;
+    int carry =c;
+    
+    for(int i=len-1;i>=0;--i){
+        if(carry==0){
+            break;
+        }    
+        else{
+            if(l[i]==0){
+                l[i]=1;
+                carry=0;
+            }
+            else{
+                l[i]=0;
+                carry=1;
+            }
+        }
+    }
+    
+    return carry;
+}
+
 int main(){
     
-    int t,i,j,n,pos;
+    int t,i,j,n,carry;
     long long ans=0;
     bool l1[1004],l2[1004],l3[1004],x[1004];
     int len1,len2,len3;
@@ -59,57 +83,17 @@ int main(){
         
         cin>>n;
         
-        //find position of last clear bit and clear all bits after it
+        //add 1 to the number and find number of set bits
         
-        pos=-1;
+        carry=0;
         
-        for(i=len3-1;i>=0;--i){
-            if(l3[i]==0){
-                pos=i;
-                
-                for(j=i;j<len3;++j){
-                    l3[j]=0;
-                }
-                ans=countsetbits(l1,len1)+n*countsetbits(l2,len2)+countsetbits(l3,len3);
-                break;
-            }
-        }
+        carry=addbool(l3,len3,1);
+        if(carry==1)
+            carry=addbool(l2,len2,carry);
+        if(carry==1)
+            carry=addbool(l1,len1,carry);
         
-        if(pos==-1) // search in L2
-        {
-            for(i=len2-1;i>=0;--i){
-                if(l2[i]==0)
-                {
-                    pos=i;
-                    
-                    ans= countsetbits(l2,len2) * (n-1);
-
-                    for(j=i;j<len2;++j){
-                        l2[j]=0;
-                    }
-
-                    ans+=countsetbits(l2,len2);
-                    ans+=countsetbits(l1,len1);
-                    break;
-                }
-            }    
-        }
-        
-        if(pos==-1) // search in L3
-        {
-            for(i=len1-1;i>=0;--i)
-            {
-                if(l1[i]==0){
-                    pos=i;
-                    for(j=i;j<len1;++j){
-                        l1[j]=0;
-                    }
-                    ans= countsetbits(l2,len2);
-                    break;
-                }
-            }    
-        }
-        
-        cout<<ans+1<<endl;
+        ans=countsetbits(l1,len1)+n*countsetbits(l2,len2)+countsetbits(l3,len3)+carry;
+        cout<<ans<<endl;
     }
 }
